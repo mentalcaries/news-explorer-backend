@@ -1,0 +1,27 @@
+{
+  "name": "news-explorer-backend",
+  "version": "1.0.0",
+  "description": "News explorer back end",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mentalcaries/news-explorer-backend.git"
+  },
+  "author": "Devin Jaggernauth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mentalcaries/news-explorer-backend/issues"
+  },
+  "homepage": "https://github.com/mentalcaries/news-explorer-backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
