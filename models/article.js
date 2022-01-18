@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 // const validator = require('validator');
 
 const articleSchema = new mongoose.Schema({
-  keyword: {},
+  keyword: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -48,4 +51,4 @@ const articleSchema = new mongoose.Schema({
   },
 });
 
-module.exports('article', articleSchema);
+module.exports = ('article', articleSchema);

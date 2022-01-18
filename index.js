@@ -8,7 +8,7 @@ app.use(express.json());
 
 const { PORT = 3000 } = process.env;
 const userRouter = require('./routes/users');
-const articleRouter = require('./routes/articles')
+const articleRouter = require('./routes/articles');
 
 app.use('/cards', articleRouter);
 
