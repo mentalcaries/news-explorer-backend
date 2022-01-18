@@ -6,6 +6,7 @@ const { Unauthorised} = require('../middleware/errors/unauthorised');
 const { Conflict } = require('../middleware/errors/conflict');
 
 const getCurrentUser = (req, res, next) => {
+  console.log(req.user._id)
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
