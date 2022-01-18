@@ -3,12 +3,21 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/aroundb');
+mongoose.connect('mongodb://localhost:27017/newsx');
 app.use(express.json());
 
 const { PORT = 3000 } = process.env;
 const userRouter = require('./routes/users');
 const articleRouter = require('./routes/articles');
+
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: '61e6aefe17929d486d4c77de',
+//   };
+
+//   next();
+// });
+
 
 app.use('/cards', articleRouter);
 
