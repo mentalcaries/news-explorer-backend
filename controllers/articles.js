@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+const { BadRequest } = require('../middleware/errors/bad-request');
+const { NotFoundError } = require('../middleware/errors/not-found');
+const { Unauthorised } = require('../middleware/errors/unauthorised');
 const Article = require('../models/article');
 
 const getArticles = (req, res, next) => {
@@ -15,19 +19,44 @@ const createArticle = (req, res, next) => {
   const {
     keyword, title, description, date, source, link, image,
   } = req.body;
-  Article.create({
-    keyword, title, description, date, source, link, image, owner: req.user._id,
-  })
-    .then((article) => res.send(article))
+
+  // Add some check to avoid adding duplicate card.
+  Article.findOne({ date, title })
+    .then((articleCard) => {
+      if (articleCard) {
+        throw new BadRequest('Card already exists');
+      }
+      return Article.create({
+        keyword,
+        title,
+        description,
+        date,
+        source,
+        link,
+        image,
+        // owner
+      })
+        .then((article) => res.send({
+          data: {
+            keyword: article.keyword,
+            title: article.title,
+            description: article.description,
+            date: article.date,
+            source: article.source,
+            link: article.link,
+            image: article.image,
+          },
+        }))
+        .catch(next);
+    })
     .catch(next);
 };
 
 const deleteArticle = (req, res, next) => {
 // delete article by Id
 // user cannot delete other users' articles
-  console.log(req);
   Article.findById({ _id: req.params })
-    .orFail(() => { throw new Error('Card does not exist'); })
+    .orFail(() => { throw new NotFoundError('Card does not exist'); })
     .then((savedArticle) => {
       if (req.user._id === savedArticle.owner._id.toString()) {
         Article.findByIdAndRemove({ _id: req.params })
@@ -37,7 +66,7 @@ const deleteArticle = (req, res, next) => {
       }
     })
     .catch(() => {
-      next(new Error('You cannot delete that!'));
+      next(new Unauthorised('You have no power to delete that!'));
     });
 };
 

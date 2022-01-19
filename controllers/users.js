@@ -1,16 +1,19 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { BadRequest } = require('../middleware/errors/bad-request');
-const { Unauthorised} = require('../middleware/errors/unauthorised');
+const { Unauthorised } = require('../middleware/errors/unauthorised');
 const { Conflict } = require('../middleware/errors/conflict');
+const { NotFoundError } = require('../middleware/errors/not-found');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getCurrentUser = (req, res, next) => {
-  console.log(req.user._id)
+  console.log(req.body.user._id);
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        console.log('No User with that ID Found');
+        throw new NotFoundError('User does not exist');
       }
       return res.status(200).send(user);
     })
@@ -22,31 +25,32 @@ const createUser = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new Conflict('Try another email');
+        throw new Conflict('That email address is already in use');
       }
-    });
-  if (!email || !password) {
-    throw new BadRequest('Missing email or password');
-  }
-  return bcrypt.hash(password, 10, (err, hash) => {
-    User.create({
-      email, name, password: hash,
+      if (!email || !password || password.length < 8) {
+        throw new BadRequest('Invalid email or password');
+      }
+      return bcrypt.hash(password, 10, (err, hash) => {
+        User.create({
+          email, name, password: hash,
+        })
+          .then((userData) => {
+            res.send({
+              data: {
+                email: userData.email,
+                name: userData.name,
+              },
+            });
+          })
+          .catch(next);
+      });
     })
-      .then((user) => {
-        res.send({
-          data: {
-            email: user.email,
-            name: user.name,
-          },
-        });
-      })
-      .catch(next);
-  });
+    .catch(next);
 };
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserbyCredentials(email, password)
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
         throw new Unauthorised('Email or password incorrect');
