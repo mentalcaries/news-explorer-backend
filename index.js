@@ -2,11 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
 const helmet = require('helmet');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const auth = require('./middleware/auth');
 
 const app = express();
 app.use(helmet());
+app.use(cors());
+app.options('*', cors());
 
 mongoose.connect('mongodb://localhost:27017/newsx');
 app.use(express.json());
@@ -15,14 +18,6 @@ const { PORT = 3000 } = process.env;
 const userRouter = require('./routes/users');
 const articleRouter = require('./routes/articles');
 const { login, createUser } = require('./controllers/users');
-
-app.use((req, res, next) => {
-  req.user = {
-    _id: '61e74169e4f3ae5c904da0c6',
-  };
-
-  next();
-});
 
 app.use(requestLogger);
 
@@ -54,13 +49,13 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'An error occurred on the server'
-        : message,
-    });
-});
+// app.use((err, req, res, next) => {
+//   const { statusCode = 500, message } = err;
+//   res
+//     .status(statusCode)
+//     .send({
+//       message: statusCode === 500
+//         ? 'An error occurred on the server'
+//         : message,
+//     });
+// });

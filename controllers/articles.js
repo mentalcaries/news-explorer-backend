@@ -4,6 +4,7 @@ const Article = require('../models/article');
 
 const getArticles = (req, res, next) => {
 // find all articles whose owner matches the current user ID
+console.log(req.user._id);
   Article.find({ owner: req.user._id })
     .orFail()
     .then((savedArticles) => {
@@ -15,7 +16,7 @@ const getArticles = (req, res, next) => {
 const createArticle = (req, res, next) => {
 // create article from card data
   const {
-    keyword, title, description, date, source, link, image, owner,
+    keyword, title, description, date, source, link, image,
   } = req.body;
 
   // Add some check to avoid adding duplicate card.
@@ -32,7 +33,7 @@ const createArticle = (req, res, next) => {
         source,
         link,
         image,
-        owner,
+        owner: req.user._id,
       })
         .then((article) => res.send({
           data: {
