@@ -9,7 +9,6 @@ const { NotFoundError } = require('../middleware/errors/not-found');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getCurrentUser = (req, res, next) => {
-  console.log(req.body.user._id);
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {

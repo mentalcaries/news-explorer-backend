@@ -25,7 +25,7 @@ router.post('/', celebrate({
     link: Joi.string().required().custom(validateUrl),
     image: Joi.string().required().custom(validateUrl),
     owner: Joi.string().hex().length(24),
-  })
+  }),
 }), createArticle);
 
 router.delete('/:articleId', celebrate({
