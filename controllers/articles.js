@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
 const { BadRequest } = require('../middleware/errors/bad-request');
-const { NotFoundError } = require('../middleware/errors/not-found');
 const { Unauthorised } = require('../middleware/errors/unauthorised');
 const Article = require('../models/article');
 
@@ -17,7 +15,7 @@ const getArticles = (req, res, next) => {
 const createArticle = (req, res, next) => {
 // create article from card data
   const {
-    keyword, title, description, date, source, link, image,
+    keyword, title, description, date, source, link, image, owner,
   } = req.body;
 
   // Add some check to avoid adding duplicate card.
@@ -34,7 +32,7 @@ const createArticle = (req, res, next) => {
         source,
         link,
         image,
-        // owner
+        owner,
       })
         .then((article) => res.send({
           data: {
@@ -55,19 +53,17 @@ const createArticle = (req, res, next) => {
 const deleteArticle = (req, res, next) => {
 // delete article by Id
 // user cannot delete other users' articles
-  Article.findById({ _id: req.params })
-    .orFail(() => { throw new NotFoundError('Card does not exist'); })
+  Article.findById(req.params.articleId)
+    .orFail()
     .then((savedArticle) => {
-      if (req.user._id === savedArticle.owner._id.toString()) {
-        Article.findByIdAndRemove({ _id: req.params })
-          .orFail()
-          .then((deletedArticle) => res.send({ date: deletedArticle }));
-        // .catch(next);
-      }
+      if (req.user._id === savedArticle.owner.toString()) {
+        Article.findByIdAndRemove(req.params.articleId)
+          // .orFail()
+          .then((deletedArticle) => res.send({ data: deletedArticle }))
+          .catch(next);
+      } else throw new Unauthorised('That\'s not yours to delete');
     })
-    .catch(() => {
-      next(new Unauthorised('You have no power to delete that!'));
-    });
+    .catch(next);
 };
 
 module.exports = { getArticles, createArticle, deleteArticle };

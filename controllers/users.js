@@ -27,7 +27,7 @@ const createUser = (req, res, next) => {
       if (user) {
         throw new Conflict('That email address is already in use');
       }
-      if (!email || !password || password.length < 8) {
+      if (!email || !password) {
         throw new BadRequest('Invalid email or password');
       }
       return bcrypt.hash(password, 10, (err, hash) => {
