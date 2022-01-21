@@ -14,13 +14,11 @@ console.log(req.user._id);
 };
 
 const createArticle = (req, res, next) => {
-// create article from card data
   const {
     keyword, title, description, date, source, link, image,
   } = req.body;
-
   // Add some check to avoid adding duplicate card.
-  Article.findOne({ date, title })
+  Article.findOne({ date, link })
     .then((articleCard) => {
       if (articleCard) {
         throw new BadRequest('Card already exists');
