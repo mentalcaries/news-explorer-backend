@@ -4,7 +4,6 @@ const Article = require('../models/article');
 
 const getArticles = (req, res, next) => {
 // find all articles whose owner matches the current user ID
-console.log(req.user._id);
   Article.find({ owner: req.user._id })
     .orFail()
     .then((savedArticles) => {
