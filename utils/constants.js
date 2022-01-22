@@ -8,6 +8,7 @@ const denyDelete = 'You cannot delete that';
 const authRequired = 'Authorization required';
 const authFailed = 'Authorization verification failed';
 const serverError = 'An error occured on the server';
+const invalidCard = 'Invalid Card ID';
 
 module.exports = {
   noUser,
@@ -20,4 +21,5 @@ module.exports = {
   authRequired,
   authFailed,
   serverError,
+  invalidCard,
 };
