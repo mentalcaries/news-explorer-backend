@@ -19,7 +19,7 @@ router.post('/', celebrate({
   body: Joi.object().keys({
     keyword: Joi.string().required(),
     title: Joi.string().required(),
-    description: Joi.string().required(),
+    text: Joi.string().required(),
     date: Joi.string().required(),
     source: Joi.string().required(),
     link: Joi.string().required().custom(validateUrl),
