@@ -6,7 +6,9 @@ const { Unauthorised } = require('../errors/unauthorised');
 const { Conflict } = require('../errors/conflict');
 const { NotFoundError } = require('../errors/not-found');
 const { devkey } = require('../utils/config');
-const { noUser, emailUsed, invalidEmailPassword, incorrectEmailPassword } = require('../utils/constants');
+const {
+  noUser, emailUsed, invalidEmailPassword, incorrectEmailPassword,
+} = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 

@@ -23,7 +23,6 @@ const { login, createUser } = require('./controllers/users');
 const { errorHandler } = require('./middleware/error');
 const { registerUser, loginUser } = require('./middleware/validateUser');
 
-
 app.use(requestLogger);
 
 app.post('/signup', registerUser, createUser);
