@@ -1,0 +1,41 @@
+{
+  "name": "news-explorer-backend",
+  "version": "1.0.0",
+  "description": "News explorer back end",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mentalcaries/news-explorer-backend.git"
+  },
+  "author": "Devin Jaggernauth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mentalcaries/news-explorer-backend/issues"
+  },
+  "homepage": "https://github.com/mentalcaries/news-explorer-backend#readme",
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "celebrate": "^15.0.0",
+    "cors": "^2.8.5",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "express": "^4.17.2",
+    "express-rate-limit": "^6.2.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^5.0.1",
+    "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.7",
+    "validator": "^13.7.0",
+    "winston": "^3.4.0"
+  }
+}
