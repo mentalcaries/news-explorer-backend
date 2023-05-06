@@ -41,3 +41,5 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorHandler);
+
+module.exports = app;
