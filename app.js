@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const cors = require('cors');
-const { requestLogger, errorLogger } = require('./middleware/logger');
+// const { requestLogger, errorLogger } = require('./middleware/logger');
 const auth = require('./middleware/auth');
 const { localdb } = require('./utils/config');
 const { limiter } = require('./middleware/limiter');
@@ -20,10 +20,10 @@ app.use(express.json());
 
 const mainRouter = require('./routes/index');
 const { login, createUser } = require('./controllers/users');
-const { errorHandler } = require('./middleware/error');
+// const { errorHandler } = require('./middleware/error');
 const { registerUser, loginUser } = require('./middleware/validateUser');
 
-app.use(requestLogger);
+// app.use(requestLogger);
 
 app.post('/signup', registerUser, createUser);
 
@@ -36,10 +36,10 @@ app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
 
-app.use(errorLogger);
+// app.use(errorLogger);
 
 app.use(errors());
 
-app.use(errorHandler);
+// app.use(errorHandler);
 
 module.exports = app;
